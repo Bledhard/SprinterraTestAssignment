@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>SprinterraTestAssignment.WebApplication</AssemblyName>
+    <RootNamespace>SprinterraTestAssignment.WebApplication</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

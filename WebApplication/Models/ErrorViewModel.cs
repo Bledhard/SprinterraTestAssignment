@@ -1,6 +1,6 @@
 using System;
 
-namespace SprinterraTestAssignment.Models
+namespace SprinterraTestAssignment.WebApplication.Models
 {
     public class ErrorViewModel
     {

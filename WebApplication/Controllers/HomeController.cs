@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SprinterraTestAssignment.Models;
+using SprinterraTestAssignment.WebApplication.Models;
 
-namespace SprinterraTestAssignment.Controllers
+namespace SprinterraTestAssignment.WebApplication.Controllers
 {
     public class HomeController : Controller
     {

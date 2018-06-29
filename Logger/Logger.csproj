@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>SprinterraTestAssignment.Logger</AssemblyName>
+    <RootNamespace>SprinterraTestAssignment.Logger</RootNamespace>
+  </PropertyGroup>
+
+</Project>

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SprinterraTestAssignment
+namespace SprinterraTestAssignment.WebApplication
 {
     public class Startup
     {
