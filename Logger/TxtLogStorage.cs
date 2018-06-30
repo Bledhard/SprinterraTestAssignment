@@ -12,9 +12,9 @@ namespace SprinterraTestAssignment.Logger.Models
     {        
         private string _savePath;
 
-        public TxtLogStorage([System.Runtime.CompilerServices.CallerFilePath] string savePath = "")
+        public TxtLogStorage()
         {
-            _savePath = Path.GetDirectoryName(savePath) + "/staLog.txt";
+            _savePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\logs\\staLog.txt";
         }
 
         public string SavePath

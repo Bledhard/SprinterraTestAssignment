@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SprinterraTestAssignment.Logger.Interfaces;
+using SprinterraTestAssignment.Logger.Models;
 
 namespace SprinterraTestAssignment.WebApplication
 {
@@ -21,6 +23,8 @@ namespace SprinterraTestAssignment.WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ICustomLogger, CustomLogger>();
+            services.AddTransient<ILogStorage, TxtLogStorage>();
             services.AddMvc();
         }
 
