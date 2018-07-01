@@ -6,6 +6,9 @@ namespace SprinterraTestAssignment.Logger.Interfaces
 {
     public interface ICustomLogger
     {
+        List<ILogStorage> LogStorages { get; }
+
+        Dictionary<string, List<CustomLog>> Get();
         void Info(string message);
         void Warn(string message);
         void Error(string message);

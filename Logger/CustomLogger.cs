@@ -1,4 +1,6 @@
-﻿using SprinterraTestAssignment.Logger.Interfaces;
+﻿using SprinterraTestAssignment.Logger.Enumerators;
+using SprinterraTestAssignment.Logger.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SprinterraTestAssignment.Logger.Models
@@ -25,6 +27,13 @@ namespace SprinterraTestAssignment.Logger.Models
             private set => _logStorages = value;
         }
 
+        public Dictionary<string, List<CustomLog>> Get()
+        {
+            var logs = new Dictionary<string, List<CustomLog>>();
+            LogStorages.ForEach(l => logs.Add(l.GetType().Name, l.Get()));
+            return logs;
+        }
+
         public List<ILogStorage> AddStorages(List<ILogStorage> logStorages)
         {
             var val = LogStorages;
@@ -33,22 +42,32 @@ namespace SprinterraTestAssignment.Logger.Models
             return val;
         }
 
-        public void Log(string message, string LogLevel) =>
-            _logStorages.ForEach(ls => ls.Add(LogLevel + ": " + message));
+        public void Log(string message, CustomLogLevel logLevel)
+        {
+            var log = new CustomLog
+            {
+                LogLevel = logLevel,
+                Message = "test string - log message",
+                DateTime = DateTime.Now
+            };
+
+            _logStorages.ForEach(ls => ls.Add(log));
+        }
+
 
         public void Info(string message) =>
-            Log(message, "Info");
+            Log(message, CustomLogLevel.Info);
 
         public void Warn(string message) =>
-            Log(message, "Warn");
+            Log(message, CustomLogLevel.Warn);
 
         public void Error(string message) =>
-            Log(message, "Error");
+            Log(message, CustomLogLevel.Error);
 
         public void Debug(string message) =>
-            Log(message, "Debug");
+            Log(message, CustomLogLevel.Debug);
 
         public void Fatal(string message) =>
-            Log(message, "Fatal");
+            Log(message, CustomLogLevel.Fatal);
     }
 }

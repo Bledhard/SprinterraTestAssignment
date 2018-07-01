@@ -1,7 +1,131 @@
-﻿
+﻿@using SprinterraTestAssignment.Logger
+@using SprinterraTestAssignment.Logger.Enumerators
 @{
+    var logStorages = (Dictionary<string, List<CustomLog>>)ViewData["logs"];
     ViewData["Title"] = "Logger";
+    var logLevels = (List<CustomLogLevel>)ViewData["LogLevels"];
+    var searchString = ViewData["searchString"];
 }
+
+<style>
+    .dropbtn {
+        background-color: white;
+        border: 1px solid black;
+        color: black;
+        padding: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .dropbtn:hover {
+            background-color: #2980B9;
+        }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+    .dropdown a:hover {
+        background-color: #ddd;
+    }
+
+    .log-storage {
+        border-right-style: solid;
+    }
+
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+        background: #FFF;
+    }
+</style>
 
 <h2>Logger</h2>
 
+<div class="dropdown">
+    <button onclick="logLevelDropDownToggle()" class="dropbtn">@searchString</button>
+    <div id="myDropdown" class="dropdown-content">
+        @foreach (var logLevel in logLevels)
+    {
+        @Html.ActionLink(logLevel.ToString(), "Logger", new { searchString = logLevel.ToString() })
+}
+        @Html.ActionLink("All", "Logger")
+    </div>
+</div>
+
+@foreach (var logStorage in logStorages)
+{
+    <h3>@logStorage.Key</h3>
+    <div class="row">
+        <div class="col-xs-8 col-md-6 log-storage">
+            <table>
+                @foreach (var log in logStorage.Value)
+                {
+                    <tr data-loglevel="@log.LogLevel.ToString()" data-mesage="@log.Message" data-datetime="@log.DateTime.ToString()">
+                        <td>
+                            @log.Message
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div id="logDetails" class="col-xs-4 col-md-6">
+
+        </div>
+    </div>
+}
+
+<script>
+    $("table").on("click", "tr", function () {
+        var logLevel = $(this).attr("data-loglevel");
+        var message = $(this).attr("data-mesage");
+        var dateTime = $(this).attr("data-datetime");
+
+        $("#logDetails").html("<b>Loglevel:</b> " + logLevel + ".<br><b>Message:</b> " + message + ".<br><b>DateTime:</b> " + dateTime + ".");
+
+    });
+
+    function logLevelDropDownToggle() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

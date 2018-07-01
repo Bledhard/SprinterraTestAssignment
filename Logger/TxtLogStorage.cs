@@ -14,7 +14,9 @@ namespace SprinterraTestAssignment.Logger.Models
 
         public TxtLogStorage()
         {
-            _savePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\logs\\staLog.txt";
+            var fullPath = @"D:\SprinterraTestAssignment_logs\";
+            Directory.CreateDirectory(fullPath);
+            _savePath = fullPath + "\\staLog.txt";
         }
 
         public string SavePath
@@ -23,25 +25,27 @@ namespace SprinterraTestAssignment.Logger.Models
             private set => _savePath = value;
         }
 
-        public void Get()
+        public List<CustomLog> Get()
         {
             using (var bs = new BufferedStream(new FileStream(SavePath, FileMode.Open, FileAccess.Read)))
+            using (StreamReader streamReader = new StreamReader(bs))
             {
-                byte[] ba = new byte[bs.Length];
-                bs.Position = 0;
-                bs.Read(ba, 0, (int)bs.Length);
-                var logFile = ba.ToString();
+                var logFile = streamReader.ReadToEnd();
+                var logs = new List<CustomLog>();
+                var list = logFile
+                    .Split('\n').ToList();
+                list.RemoveAll(s => s == "");
+                list.ForEach(s => logs.Add((CustomLog)s));
+                return logs;
             }
         }
 
-        public void Add(string log)
+        public void Add(CustomLog log)
         {
-            using (var bs = new BufferedStream(new FileStream(SavePath, FileMode.OpenOrCreate, FileAccess.Write)))
+            using (var bs = new BufferedStream(new FileStream(SavePath, FileMode.Append, FileAccess.Write)))
+            using (StreamWriter writer = new StreamWriter(bs))
             {
-                foreach (var c in log)
-                {
-                    bs.WriteByte((byte)c);
-                }
+                    writer.WriteLine(log.ToString());
             }
         }
     }
